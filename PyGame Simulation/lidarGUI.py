@@ -1,7 +1,7 @@
 """
 All functions for plotting the LiDAR data.
-Author: Benned "Robert Moon" Hedegaard
-Last revised 2/21/2020
+Authors: Benned Hedegaard, Robert Moon
+Last revised 2/22/2020
 """
 
 import pygame
@@ -45,16 +45,14 @@ def main():
     if(lidar.Connect()):
         print(lidar.GetDeviceInfo())
         gen = lidar.StartScanning()
-        t = time.time() # start time
+        start = time.time()
         
         # Run for given time and make sure window is not closed.
-        while (time.time() - t) < 5 and not done:
+        while (time.time() - start) < 5 and not done:
             data = next(gen)
-            print(type(data))
-            print(data)
+            #print("Data:",type(data),data)
           
             screen.fill(WHITE) # Always clear the screen.
-            #clock.tick(60) # Limits loop to this many times per second.
 
             for event in pygame.event.get(): # User did something!
                 if event.type == pygame.QUIT: # If user clicked close...
@@ -65,7 +63,7 @@ def main():
                 drawRangeBearing(screen,CENTER,r,angle)
 
             pygame.display.flip() # Update screen to display all changes made.
-            time.sleep(0.5) 
+            clock.tick(2) # Limits loop to this many times per second.
         
         lidar.StopScanning()
         
